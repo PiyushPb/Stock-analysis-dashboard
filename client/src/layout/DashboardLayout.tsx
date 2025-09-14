@@ -4,10 +4,12 @@ import { Outlet } from "react-router-dom";
 
 function DashboardLayout() {
   return (
-    <section>
+    <main>
       <Navbar />
-      <Outlet />
-    </section>
+      <section className="mt-[140px] md:mt-[120px] px-5 md:px-10">
+        <Outlet />
+      </section>
+    </main>
   );
 }
 
