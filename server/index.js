@@ -17,6 +17,4 @@ app.get("/ping", (req, res) => res.send("pong"));
 // analytics route
 app.use("/analytics", analyticsRoute);
 
-app.listen(PORT, () =>
-  console.log(`Server running on port http://localhost:${PORT}`)
-);
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
