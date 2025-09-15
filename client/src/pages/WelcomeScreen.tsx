@@ -9,7 +9,7 @@ function WelcomeScreen() {
 
   const pingBackend = async () => {
     try {
-      const res = await fetch("http://localhost:8000/ping");
+      const res = await fetch("https://stock-analysis-dashboard-1-88yz.onrender.com/ping");
       const text = await res.text();
 
       if (text.trim().toLowerCase() === "pong") {
