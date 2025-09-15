@@ -11,30 +11,27 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import type { TradeSummary } from "@/types/AnalyticsTypes";
 
-const data = [
-  { day: "Mon", total: 10, wins: 7, losses: 3, profit: 200, loss: -50 },
-  { day: "Tue", total: 15, wins: 10, losses: 5, profit: 300, loss: -100 },
-  { day: "Wed", total: 12, wins: 0, losses: 12, profit: 250, loss: -60 },
-  { day: "Thu", total: 18, wins: 12, losses: 6, profit: 350, loss: -120 },
-  { day: "Fri", total: 20, wins: 15, losses: 5, profit: 400, loss: -90 },
-  { day: "Sat", total: 25, wins: 17, losses: 8, profit: 500, loss: -150 },
-  { day: "Sun", total: 22, wins: 14, losses: 8, profit: 450, loss: -130 },
-];
+interface Props {
+  tradeSummary: TradeSummary;
+}
 
-// Calculate totals and dynamic metrics
-const totalTrades = data.reduce((acc, curr) => acc + curr.total, 0);
-const winningTrades = data.reduce((acc, curr) => acc + curr.wins, 0);
-const losingTrades = data.reduce((acc, curr) => acc + curr.losses, 0);
-const totalProfit = data.reduce((acc, curr) => acc + curr.profit, 0);
-const totalLoss = data.reduce((acc, curr) => acc + curr.loss, 0);
+const TradeSummaryCard: React.FC<Props> = ({ tradeSummary }) => {
+  const data = tradeSummary.data;
 
-// Calculate additional metrics
-const winRate = ((winningTrades / totalTrades) * 100).toFixed(2);
-const lossRate = ((losingTrades / totalTrades) * 100).toFixed(2);
-const profitLossRatio = (totalProfit / Math.abs(totalLoss)).toFixed(2);
+  // Calculate totals metrics
+  const totalTrades = data.reduce((acc, curr) => acc + curr.total, 0);
+  const winningTrades = data.reduce((acc, curr) => acc + curr.wins, 0);
+  const losingTrades = data.reduce((acc, curr) => acc + curr.losses, 0);
+  const totalProfit = data.reduce((acc, curr) => acc + curr.profit, 0);
+  const totalLoss = data.reduce((acc, curr) => acc + curr.loss, 0);
 
-function TradeSummaryCard() {
+  // Calculate additional metrics
+  const winRate = ((winningTrades / totalTrades) * 100).toFixed(2);
+  const lossRate = ((losingTrades / totalTrades) * 100).toFixed(2);
+  const profitLossRatio = (totalProfit / Math.abs(totalLoss)).toFixed(2);
+
   return (
     <section className="md:col-span-4 w-full">
       <Card className="w-full">
@@ -95,6 +92,6 @@ function TradeSummaryCard() {
       </Card>
     </section>
   );
-}
+};
 
 export default TradeSummaryCard;

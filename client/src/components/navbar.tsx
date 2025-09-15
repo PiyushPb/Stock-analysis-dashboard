@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import navLinks from "@/constant/navlinks";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "./ui/button";

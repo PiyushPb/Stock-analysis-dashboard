@@ -1,11 +1,17 @@
 import React from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { BarChart } from "@mui/x-charts/BarChart";
+import ChartLabel from "@/components/ui/chartLabel";
+import type { TotalWeeklyEarnings } from "@/types/AnalyticsTypes";
 
-const weeklyLabels = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-const weeklyData = [2.5, -1.2, 3.8, -0.5, 4.2, 3, -2.1];
+interface Props {
+  weeklyEarning: TotalWeeklyEarnings;
+}
 
-function TotalWeeklyEarning() {
+const TotalWeeklyEarning: React.FC<Props> = ({ weeklyEarning }) => {
+  const weeklyLabels = weeklyEarning.weeklyLabels;
+  const weeklyData = weeklyEarning.weeklyData;
+
   return (
     <section className="md:col-span-2 w-full h-full">
       <Card className="w-full h-full">
@@ -55,32 +61,35 @@ function TotalWeeklyEarning() {
           </div>
 
           {/* Right Side Content */}
-          <div className="w-full lg:w-[40%] p-5">
+          <div className="w-full lg:w-[50%] p-5">
             {/* Weekly Earning */}
             <div>
-              <h3 className="text-3xl font-semibold">₹ 1,645.34</h3>
+              <h3 className="text-3xl font-semibold">
+                ₹ {weeklyEarning.thisWeekEarning}
+              </h3>
               <div className="mt-4 text-xl">
-                <span className="text-gray-500">Stock (4):</span>
+                <span className="text-gray-500">
+                  Stock ({weeklyEarning.stocks.numberOfStock}):
+                </span>
                 <span className="text-black">
-                  {" "}
-                  +623.01 <span className="text-green-500">(+16%)</span>
+                  {weeklyEarning.stocks.value}{" "}
+                  <span className="text-green-500">
+                    ({weeklyEarning.stocks.change})
+                  </span>
                 </span>
               </div>
               <div className=" text-xl">
                 <span className="text-gray-500">Dividend Profit:</span>
-                <span className="text-black"> +623.01</span>
+                <span className="text-black">
+                  {" "}
+                  {weeklyEarning.dividendProfitValue}
+                </span>
               </div>
             </div>
             <div>
-              <div className="flex justify-start gap-6 text-gray-700 mt-2  text-xl">
-                <div className="flex items-center gap-2">
-                  <span className="w-[15px] h-[15px] rounded-full bg-[#10B981]"></span>
-                  Profit
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="w-[15px] h-[15px] rounded-full bg-[#EF4444]"></span>
-                  Loss
-                </div>
+              <div className="flex justify-start gap-6 text-gray-700 mt-2">
+                <ChartLabel label="Profit" color="#10B981" />
+                <ChartLabel label="Loss" color="#EF4444" />
               </div>
             </div>
           </div>
@@ -88,6 +97,6 @@ function TotalWeeklyEarning() {
       </Card>
     </section>
   );
-}
+};
 
 export default TotalWeeklyEarning;

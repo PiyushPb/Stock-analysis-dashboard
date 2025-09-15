@@ -2,11 +2,17 @@ import React from "react";
 import { Card, CardContent, CardFooter, CardHeader } from "../../ui/card";
 import { PieChart } from "@mui/x-charts/PieChart";
 import { GoInfo } from "react-icons/go";
+import ChartLabel from "@/components/ui/chartLabel";
+import type { PortfolioDetails } from "@/types/AnalyticsTypes";
 
-const formatCurrency = (value) =>
+interface Props {
+  portfolioDetails: PortfolioDetails;
+}
+
+const formatCurrency = (value: number) =>
   `₹ ${value.toLocaleString("en-IN", { maximumFractionDigits: 2 })}`;
 
-const getPieChartData = (totalInvestment, availableBalance) => [
+const getPieChartData = (totalInvestment: number, availableBalance: number) => [
   {
     label: "Total Investment",
     value: Math.abs(totalInvestment),
@@ -19,23 +25,31 @@ const getPieChartData = (totalInvestment, availableBalance) => [
   },
 ];
 
-const getGaugeValue = (totalInvestment, availableBalance) => {
+const getGaugeValue = (totalInvestment: number, availableBalance: number) => {
   const total = Math.abs(totalInvestment) + Math.abs(availableBalance);
   return total === 0
     ? 0
     : Math.round((Math.abs(totalInvestment) / total) * 100);
 };
 
-function InvestmentCard() {
-  const totalInvestment = 39109;
-  const availableBalance = 140222.75;
-  const avgReturn = 8.5;
+const formatChange = (value: number) => {
+  const color = value >= 0 ? "text-green-500" : "text-red-500";
+  const sign = value > 0 ? "+" : "";
+  return {
+    text: `${sign}${value}%`,
+    color,
+  };
+};
+
+const InvestmentCard: React.FC<Props> = ({ portfolioDetails }) => {
+  const { totalInvestment, availableBalance, dailyChange, monthlyChange } =
+    portfolioDetails;
 
   const gaugeValue = getGaugeValue(totalInvestment, availableBalance);
   const data = getPieChartData(totalInvestment, availableBalance);
 
-  const returnColor = avgReturn >= 0 ? "text-green-500" : "text-red-500";
-  const formattedReturn = `${avgReturn > 0 ? "+" : ""}${avgReturn}%`;
+  const formattedDailyChange = formatChange(dailyChange);
+  const formattedMonthlyChange = formatChange(monthlyChange);
 
   return (
     <section className="h-full w-full flex">
@@ -70,14 +84,8 @@ function InvestmentCard() {
             </div>
 
             <div className="mt-4 space-y-1">
-              <div className="flex items-center gap-2">
-                <div className="w-[15px] h-[15px] rounded-full bg-[#111827]"></div>
-                <span>Total Investment</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-[15px] h-[15px] rounded-full bg-[#E5E7EB]"></div>
-                <span>Available Balance</span>
-              </div>
+              <ChartLabel label="Total Investment" color="#111827" />
+              <ChartLabel label="Available Balance" color="#E5E7EB" />
             </div>
           </div>
 
@@ -91,7 +99,9 @@ function InvestmentCard() {
               </div>
               <div className="text-right">
                 <span className="text-sm text-gray-400">Today</span>
-                <h4 className={`text-sm ${returnColor}`}>{formattedReturn}</h4>
+                <h4 className={`text-sm ${formattedDailyChange.color}`}>
+                  {formattedDailyChange.text}
+                </h4>
               </div>
             </div>
 
@@ -104,20 +114,23 @@ function InvestmentCard() {
               </div>
               <div className="text-right">
                 <span className="text-sm text-gray-400">This month</span>
-                <h4 className={`text-sm ${returnColor}`}>{formattedReturn}</h4>
+                <h4 className={`text-sm ${formattedMonthlyChange.color}`}>
+                  {formattedMonthlyChange.text}
+                </h4>
               </div>
             </div>
           </div>
         </CardContent>
+
         <CardFooter>
           <div className="flex flex-row gap-2 text-gray-500 items-center">
             <GoInfo />
-            <p>This are the portfolio details of your investments</p>
+            <p>These are the portfolio details of your investments</p>
           </div>
         </CardFooter>
       </Card>
     </section>
   );
-}
+};
 
 export default InvestmentCard;

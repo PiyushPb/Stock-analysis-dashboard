@@ -1,12 +1,17 @@
 import React from "react";
 import { Card, CardContent, CardHeader } from "../../ui/card";
 import { PieChart } from "@mui/x-charts/PieChart";
+import ChartLabel from "@/components/ui/chartLabel";
+import type { WinLossBreakdown } from "@/types/AnalyticsTypes";
 
-function WinLossCard() {
-  // 📊 Values (could be props too)
-  const winRate = 72.4;
-  const lossRate = 23.1;
-  const neutralRate = 4.5;
+interface Props {
+  winLossBreakdown: WinLossBreakdown;
+}
+
+const WinLossCard: React.FC<Props> = ({ winLossBreakdown }) => {
+  const winRate = winLossBreakdown.winRate;
+  const lossRate = winLossBreakdown.lossRate;
+  const neutralRate = winLossBreakdown.neutralRate;
 
   const data = [
     { label: "Win", value: winRate, color: "#10B981" },
@@ -49,22 +54,13 @@ function WinLossCard() {
 
         {/* Legend */}
         <div className="flex justify-center gap-6 text-sm text-gray-700 mt-2">
-          <div className="flex items-center gap-2">
-            <span className="w-[12px] h-[12px] rounded-full bg-[#10B981]"></span>
-            Win
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="w-[12px] h-[12px] rounded-full bg-[#EF4444]"></span>
-            Loss
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="w-[12px] h-[12px] rounded-full bg-[#9CA3AF]"></span>
-            Neutral
-          </div>
+          <ChartLabel label="Win" color="#10B981" />
+          <ChartLabel label="Loss" color="#EF4444" />
+          <ChartLabel label="Neutral" color="#9CA3AF" />
         </div>
       </CardContent>
     </Card>
   );
-}
+};
 
 export default WinLossCard;

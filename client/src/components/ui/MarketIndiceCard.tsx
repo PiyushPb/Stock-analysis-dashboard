@@ -1,4 +1,3 @@
-import React from "react";
 import { BiSolidUpArrow, BiSolidDownArrow } from "react-icons/bi";
 import type { MarketIndex } from "@/constant/marketIndices";
 

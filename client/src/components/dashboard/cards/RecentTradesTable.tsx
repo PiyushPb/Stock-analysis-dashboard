@@ -1,12 +1,10 @@
 import React from "react";
 import {
   Card,
-  CardAction,
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import {
   Table,
@@ -17,90 +15,25 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
+import type { RecentTrade } from "@/types/AnalyticsTypes";
 
-function RecentTradesTable() {
-  const trades = [
-    {
-      id: "T001",
-      stock: "Reliance Industries",
-      quantity: 50,
-      price: "2,500.00",
-      time: "2025-09-15 14:30",
-    },
-    {
-      id: "T002",
-      stock: "Tata Consultancy",
-      quantity: 20,
-      price: "3,200.00",
-      time: "2025-09-15 14:45",
-    },
-    {
-      id: "T003",
-      stock: "Infosys",
-      quantity: 10,
-      price: "1,450.00",
-      time: "2025-09-15 14:50",
-    },
-    {
-      id: "T004",
-      stock: "HDFC Bank",
-      quantity: 30,
-      price: "1,450.00",
-      time: "2025-09-15 15:00",
-    },
-    {
-      id: "T005",
-      stock: "ICICI Bank",
-      quantity: 15,
-      price: "900.00",
-      time: "2025-09-15 15:15",
-    },
-    {
-      id: "T006",
-      stock: "Bajaj Finance",
-      quantity: 25,
-      price: "7,500.00",
-      time: "2025-09-15 15:30",
-    },
-    {
-      id: "T007",
-      stock: "Hindustan Unilever",
-      quantity: 40,
-      price: "2,000.00",
-      time: "2025-09-15 15:45",
-    },
-    {
-      id: "T008",
-      stock: "Maruti Suzuki",
-      quantity: 18,
-      price: "8,000.00",
-      time: "2025-09-15 16:00",
-    },
-    {
-      id: "T009",
-      stock: "Bharti Airtel",
-      quantity: 35,
-      price: "600.00",
-      time: "2025-09-15 16:15",
-    },
-    {
-      id: "T010",
-      stock: "Asian Paints",
-      quantity: 12,
-      price: "2,300.00",
-      time: "2025-09-15 16:30",
-    },
-  ];
+interface Props {
+  recentTradesData: RecentTrade[];
+}
+
+const RecentTradesTable: React.FC<Props> = ({ recentTradesData }) => {
+  const trades = recentTradesData;
 
   return (
     <Card className="w-full">
       <CardHeader className=" p-4">
-        <CardTitle>Recent Trades</CardTitle>
+        <h3 className="text-3xl font-semibold">Recent Trades</h3>
         <CardDescription>
           Details of your recent 10 stock market trades
         </CardDescription>
       </CardHeader>
-      <CardContent className="p-4">
+      <CardContent className="">
         <Table className="min-w-full table-auto">
           <TableCaption className="text-sm text-gray-600">
             A list of your most recent trades.
@@ -143,13 +76,11 @@ function RecentTradesTable() {
           </TableBody>
         </Table>
       </CardContent>
-      <CardFooter className="bg-gray-100 p-4">
-        <CardAction className="text-indigo-600 font-semibold hover:text-indigo-800">
-          View All Trades
-        </CardAction>
+      <CardFooter>
+        <Button>View All Trades</Button>
       </CardFooter>
     </Card>
   );
-}
+};
 
 export default RecentTradesTable;
